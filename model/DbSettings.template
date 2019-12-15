@@ -1,0 +1,6 @@
+<?php
+
+putenv('DBHOST=VALUE');
+putenv('DBUSER=VALUE');
+putenv('DBPASSWORD=VALUE');
+putenv('DBNAME=VALUE');
