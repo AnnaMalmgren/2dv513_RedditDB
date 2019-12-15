@@ -5,12 +5,12 @@ namespace View;
 class TimeDisplay {
   
 
-    public function startTime($time) {
-        echo "\nSTART TIME: $time\n";
+    public function displayStartTime($time) {
+        echo "START TIME: $time<br>";
     }
 
-    public function endTime($time) {
-        echo "END TIME: $time\n";
+    public function displayEndTime($time) {
+        echo "END TIME: $time<br>";
     }
 
 }

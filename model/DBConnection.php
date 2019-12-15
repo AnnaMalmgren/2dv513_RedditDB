@@ -2,7 +2,7 @@
 
 namespace Model;
 
-require_once("DbSettings.php");
+require_once(__DIR__ . '/../settings.php');
 
 class DBConnection {
 

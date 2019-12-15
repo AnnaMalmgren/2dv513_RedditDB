@@ -59,4 +59,9 @@ composer.lock
 /wpcs/*
 
 #### Settings
-DbSettings.php
+settings.php
+
+#### Data files
+RC_2007-10.bz2
+RC_2011-07.bz2
+RC_2012-12.bz2

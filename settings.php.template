@@ -1,0 +1,12 @@
+<?php
+
+// DB Settings
+putenv('DBHOST=VALUE');
+putenv('DBUSER=VALUE');
+putenv('DBPASSWORD=VALUE');
+putenv('DBNAME=VALUE');
+
+// filepaths to insert value data
+putenv('SMALLFILE=VALUE');
+putenv('MEDIUMFILE=VALUE');
+putenv('LARGEFILE=VALUE');

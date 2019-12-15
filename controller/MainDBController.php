@@ -24,12 +24,11 @@ class MainDBController {
 
    
     public function populateDB() {
-       $this->timer->startTime($this->getTime());
+       $this->timer->displayStartTime($this->getTime());
 
         $this->insertValuesInDB();
 
-        $this->timer->endTime($this->getTime());
-        $this->timer->displayTimeResult();
+        $this->timer->displayEndTime($this->getTime());
         fclose($this->file);
     }
 
