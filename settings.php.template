@@ -7,6 +7,7 @@ putenv('DBPASSWORD=VALUE');
 putenv('DBNAME=VALUE');
 
 // filepaths to insert value data
+// Add the files to the projects root folder in bz2 format
 putenv('SMALLFILE=VALUE');
 putenv('MEDIUMFILE=VALUE');
 putenv('LARGEFILE=VALUE');

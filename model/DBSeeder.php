@@ -8,11 +8,27 @@ require_once("DBConnection.php");
 
      private $mysqli;
 
-     private $values = "";
+     private $valuesPost = "";
+
+     private $valuesSubreddit = "";
      
-     public function __construct(DBConnection $db)
+     public function __construct(DBConnection $db, bool $withConstraints)
      {
         $this->mysqli = $db->getMysqli();
+        $this->createTables($withConstraints, $db);
+     }
+
+     public function createTables(bool $withConstraints, $db) {
+        $sqlPostTable = $db->getPostTableQuery($withConstraints);
+        $sqlSubredditTable = $db->getSubredditTableQuery($withConstraints);
+        
+        if(!$this->mysqli->query($sqlPostTable)) {
+         throw new \Exception("Error in creating post Table" . $this->mysqli->error);
+        }
+
+        if(!$this->mysqli->query($sqlSubredditTable)) {
+         throw new \Exception("Error in creating subreddit Table" . $this->mysqli->error);
+        }
      }
 
      public function addQueryValues($paramValues) {
@@ -28,29 +44,37 @@ require_once("DBConnection.php");
       $score = $paramValues['score'];
       $created_utc = date("Y-m-d H-i-s", $paramValues['created_utc']);
       
-      $this->values .= "('$id', '$parent_id', '$link_id', '$name', '$author', '$body', '$subreddit_id', '$subreddit', '$score', '$created_utc'), ";
-    
+      $this->valuesPost .= "('$id', '$parent_id', '$link_id', '$name', '$author', '$body', '$subreddit_id', '$score', '$created_utc'),";
+      $this->valuesSubreddit .= "('$subreddit_id', '$subreddit'),";
      }
 
 
      public function executeStmt() {
-        $queryValues = $this->getQueryValues();
-        $sql = "INSERT into reddit_post VALUES $queryValues";
+        $queryPostValues = $this->getQueryValues($this->valuesPost);
+        $sqlPost = "INSERT into post VALUES $queryPostValues";
 
-        if(!$this->mysqli->query($sql)) {
+        $querySubredditValues = $this->getQueryValues($this->valuesSubreddit);
+        $sqlSubreddit = "INSERT into subreddit (id, name) VALUES $querySubredditValues";
+
+        if(!$this->mysqli->query($sqlPost)) {
          throw new \Exception("Error in query" . $this->mysqli->error);
-     }
+        }
+
+        if(!$this->mysqli->query($sqlSubreddit)) {
+         throw new \Exception("Error in query" . $this->mysqli->error);
+        }
 
         $this->resetValues();
      }
 
      private function resetValues() {
-        $this->values = "";
+        $this->valuesPost = "";
+        $this->valuesSubreddit = "";
      }
      
      // Removes the last space and comme from values string. 
-     private function getQueryValues() : string {
-        return substr($this->values, 0, -2);
+     private function getQueryValues(string $values) : string {
+        return substr($values, 0, -1);
      }
     
 }
