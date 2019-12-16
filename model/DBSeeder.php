@@ -21,13 +21,13 @@ require_once("DBConnection.php");
      public function createTables(bool $withConstraints, $db) {
         $sqlPostTable = $db->getPostTableQuery($withConstraints);
         $sqlSubredditTable = $db->getSubredditTableQuery($withConstraints);
+   
+        if(!$this->mysqli->query($sqlSubredditTable)) {
+         throw new \Exception("Error in creating subreddit Table" . $this->mysqli->error);
+        }
         
         if(!$this->mysqli->query($sqlPostTable)) {
          throw new \Exception("Error in creating post Table" . $this->mysqli->error);
-        }
-
-        if(!$this->mysqli->query($sqlSubredditTable)) {
-         throw new \Exception("Error in creating subreddit Table" . $this->mysqli->error);
         }
      }
 
@@ -54,13 +54,13 @@ require_once("DBConnection.php");
         $sqlPost = "INSERT into post VALUES $queryPostValues";
 
         $querySubredditValues = $this->getQueryValues($this->valuesSubreddit);
-        $sqlSubreddit = "INSERT into subreddit (id, name) VALUES $querySubredditValues";
+        $sqlSubreddit = "INSERT IGNORE into subreddit (id, name) VALUES $querySubredditValues";
 
-        if(!$this->mysqli->query($sqlPost)) {
+        if(!$this->mysqli->query($sqlSubreddit)) {
          throw new \Exception("Error in query" . $this->mysqli->error);
         }
 
-        if(!$this->mysqli->query($sqlSubreddit)) {
+        if(!$this->mysqli->query($sqlPost)) {
          throw new \Exception("Error in query" . $this->mysqli->error);
         }
 

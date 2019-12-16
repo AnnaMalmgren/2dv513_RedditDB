@@ -45,7 +45,7 @@ class DBConnection {
             body longtext,
             subreddit_id varchar(50),
             score int(11),
-            created_utc datetime DEFAULT current_timestamp()
+            created_utc datetime
           )";
     }
 
@@ -57,26 +57,30 @@ class DBConnection {
     }
 
     private function postTableConstraintsOn() : string {
-        return "CREATE TABLE IF NOT EXISTS post (
+        return "CREATE TABLE IF NOT EXISTS post(
             id varchar(50) NOT NULL,
             parent_id varchar(50) NOT NULL,
             link_id varchar(50) NOT NULL,
             name varchar(50) NOT NULL,
             author varchar(50) NOT NULL,
-            body longtext,
+            body longtext NOT NULL,
             subreddit_id varchar(50) NOT NULL,
             score int(11) NOT NULL,
-            created_utc datetime DEFAULT current_timestamp() NOT NULL
-            PRIMARY KEY(name), FOREIGN KEY(subreddit_id) REFERENCES subreddit(id))
-          ) ENGINE=InnoDB DEFAULT CHARSET=latin1";  
+            created_utc datetime NOT NULL,
+            PRIMARY KEY(name),
+            FOREIGN KEY(subreddit_id) REFERENCES subreddit(id)
+          )";
+    }
+
+    public function addForeignKey() {
+        return "ALTER TABLE post ADD CONSTRAINT FOREIGN KEY(subreddit_id) REFERENCES subreddit(id)";
     }
 
     private function subredditTableConstraintsOn() : string {
-        return "CREATE TABLE IF NOT EXISTS subreddit (
-            id varchar(50) NOT NULL,
-            name varchar(50) NOT NULL,
-            PRIMARY KEY(id)
-          ) ENGINE=InnoDB DEFAULT CHARSET=latin1";
+        return "CREATE TABLE IF NOT EXISTS subreddit(
+            name VARCHAR(50) NOT NULL, 
+            id VARCHAR(50) PRIMARY KEY
+            )";
     }
 
 }
