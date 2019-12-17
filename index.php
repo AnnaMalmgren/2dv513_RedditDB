@@ -8,9 +8,9 @@ require_once("controller/MainDBController.php");
 require_once("view/TimeDisplay.php");
 
 $connection = new \Model\DBConnection();
-$withConststraints = true; 
+$withConststraints = false; 
 $mysqli = new \Model\DBSeeder($connection, $withConststraints);
-$file = new \Model\File(getenv('SMALLFILE'));
+$file = new \Model\File(getenv('MEDIUMFILE'));
 $timer = new \View\TimeDisplay();
 $controller = new \Controller\MainDBController($mysqli, $file, $timer);
 

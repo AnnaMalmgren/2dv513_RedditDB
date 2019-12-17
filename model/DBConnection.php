@@ -61,13 +61,13 @@ class DBConnection {
             id varchar(50) NOT NULL,
             parent_id varchar(50) NOT NULL,
             link_id varchar(50) NOT NULL,
-            name varchar(50) NOT NULL,
+            name varchar(50) NOT NULL UNIQUE,
             author varchar(50) NOT NULL,
             body longtext NOT NULL,
             subreddit_id varchar(50) NOT NULL,
             score int(11) NOT NULL,
             created_utc datetime NOT NULL,
-            PRIMARY KEY(name),
+            PRIMARY KEY(id),
             FOREIGN KEY(subreddit_id) REFERENCES subreddit(id)
           )";
     }
